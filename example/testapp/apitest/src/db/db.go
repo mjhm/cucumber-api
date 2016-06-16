@@ -13,13 +13,17 @@ func OpenDB(filename string) (*sql.DB, error) {
 }
 
 // CommitUser commits the given user to the given database
-func CommitUser(db *sql.DB, user user.User) error {
+func CommitUser(db *sql.DB, user *user.User) error {
 	stmt, err := db.Prepare("insert into users values(NULL,?,?)")
 	if err != nil {
 		return err
 	}
 	defer stmt.Close()
-	_, err = stmt.Exec(user.Name, user.Age)
+	res, err := stmt.Exec(user.Name, user.Age)
+	if err != nil {
+		return err
+	}
+	user.Id, err = res.LastInsertId()
 	if err != nil {
 		return err
 	}
@@ -51,4 +55,36 @@ func CreateSkelDB() error {
 	}
 	tx.Commit()
 	return nil
+}
+
+// FindUsersBy takes in a database connection and map of filters. It searches the database
+// for the users matching the filters and returns a slice of results.
+// valid filters are of the form: map{ "name": "john", "age": "23", "id": 7}
+// (Or any subset of those keys). A blank filter map will select all users.
+func FindUsersBy(db *sql.DB, filters map[string]string) ([]user.User, error) {
+	var retSlice []user.User
+	sqlStmt := "select * from users "
+	if len(filters) > 0 {
+		sqlStmt += "where "
+		for key, val := range filters {
+			sqlStmt += key + "=" + val + " and "
+		}
+		sqlStmt = sqlStmt[:len(sqlStmt)-4]
+	}
+
+	rows, err := db.Query(sqlStmt)
+	if err != nil {
+		return retSlice, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var resUser user.User
+		err = rows.Scan(&resUser.Id, &resUser.Name, &resUser.Age)
+		if err != nil {
+			return retSlice, err
+		}
+		retSlice = append(retSlice, resUser)
+	}
+	return retSlice, nil
 }
