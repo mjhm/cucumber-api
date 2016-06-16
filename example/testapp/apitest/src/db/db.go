@@ -4,7 +4,7 @@ package db
 import (
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
-  "user"
+	"user"
 )
 
 // openDB opens the given sqlite database by filepath.
@@ -14,16 +14,16 @@ func OpenDB(filename string) (*sql.DB, error) {
 
 // CommitUser commits the given user to the given database
 func CommitUser(db *sql.DB, user user.User) error {
-  stmt, err := db.Prepare("insert into users values(NULL,?,?)")
-  if err != nil {
-    return err
-  }
-  defer stmt.Close()
-  _, err = stmt.Exec(user.Name, user.Age)
-  if err != nil {
-    return err
-  }
-  return nil
+	stmt, err := db.Prepare("insert into users values(NULL,?,?)")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+	_, err = stmt.Exec(user.Name, user.Age)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // CreateSkelDB creates a skeleton database with one user table and no users.
