@@ -7,5 +7,4 @@ type User struct {
 	id      int //unique identifier from the database
 	Name    string
 	Age     int
-	Friends []string
 }
