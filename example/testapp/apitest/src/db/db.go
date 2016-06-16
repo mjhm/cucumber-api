@@ -12,7 +12,8 @@ func OpenDB(filename string) (*sql.DB, error) {
 	return sql.Open("sqlite3", filename)
 }
 
-// CommitUser commits the given user to the given database
+// CommitUser commits the given user to the given database.
+// No santization of inputs is used, be warned.
 func CommitUser(db *sql.DB, user *user.User) error {
 	stmt, err := db.Prepare("insert into users values(NULL,?,?)")
 	if err != nil {
@@ -61,6 +62,7 @@ func CreateSkelDB() error {
 // for the users matching the filters and returns a slice of results.
 // valid filters are of the form: map{ "name": "john", "age": "23", "id": 7}
 // (Or any subset of those keys). A blank filter map will select all users.
+// No santization of inputs is used, be warned.
 func FindUsersBy(db *sql.DB, filters map[string]string) ([]user.User, error) {
 	var retSlice []user.User
 	sqlStmt := "select * from users "

@@ -20,6 +20,7 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 		}
+		return
 	}
 	http.HandleFunc("/", sayHello)
 	log.Fatal(http.ListenAndServe(":8080", nil))
