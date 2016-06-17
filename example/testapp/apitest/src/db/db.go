@@ -69,7 +69,13 @@ func FindUsersBy(db *sql.DB, filters map[string]string) ([]user.User, error) {
 	if len(filters) > 0 {
 		sqlStmt += "where "
 		for key, val := range filters {
-			sqlStmt += key + "=" + val + " and "
+			sqlStmt += key + "="
+			if key == "name" {
+				sqlStmt += "\"" + val + "\""
+			} else {
+				sqlStmt += val
+			}
+			sqlStmt += " and "
 		}
 		sqlStmt = sqlStmt[:len(sqlStmt)-4]
 	}
