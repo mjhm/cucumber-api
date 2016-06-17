@@ -33,8 +33,8 @@ func CommitUser(db *sql.DB, user *user.User) error {
 }
 
 // CreateSkelDB creates a skeleton database with one user table and no users.
-func CreateSkelDB() error {
-	db, err := OpenDB("start.db")
+func CreateSkelDB(filename string) error {
+	db, err := OpenDB(filename)
 	if err != nil {
 		return err
 	}

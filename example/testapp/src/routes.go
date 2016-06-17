@@ -57,9 +57,9 @@ func handleUserGet(w http.ResponseWriter, req *http.Request) {
 		if err != nil {
 			handleServerError(util.ErrorToString(err), w, req)
 		} else {
-      if allUsers == nil {
-        allUsers = make([]user.User, 0)
-      }
+			if allUsers == nil {
+				allUsers = make([]user.User, 0)
+			}
 			data, err := json.Marshal(allUsers)
 			if err != nil {
 				handleServerError(util.ErrorToString(err), w, req)
@@ -85,11 +85,11 @@ func handleUserGet(w http.ResponseWriter, req *http.Request) {
 				handleBadRequest("please provide only one age", w, req)
 				return
 			}
-      _, err := strconv.Atoi(age[0])
-      if err != nil {
-        handleBadRequest("please have age be an int!", w, req)
-        return
-      }
+			_, err := strconv.Atoi(age[0])
+			if err != nil {
+				handleBadRequest("please have age be an int!", w, req)
+				return
+			}
 			filters["age"] = age[0]
 		}
 		if idOk {
@@ -97,11 +97,11 @@ func handleUserGet(w http.ResponseWriter, req *http.Request) {
 				handleBadRequest("please provide only one id", w, req)
 				return
 			}
-      _, err := strconv.Atoi(id[0])
-      if err != nil {
-        handleBadRequest("please have id be an int!", w, req)
-        return
-      }
+			_, err := strconv.Atoi(id[0])
+			if err != nil {
+				handleBadRequest("please have id be an int!", w, req)
+				return
+			}
 			filters["id"] = id[0]
 		}
 		users, err := db.FindUsersBy(dbase, filters)
@@ -109,9 +109,9 @@ func handleUserGet(w http.ResponseWriter, req *http.Request) {
 			handleServerError(util.ErrorToString(err), w, req)
 			return
 		}
-    if users == nil {
-      users = make([]user.User, 0)
-    }
+		if users == nil {
+			users = make([]user.User, 0)
+		}
 		data, err := json.Marshal(users)
 		if err != nil {
 			handleServerError(util.ErrorToString(err), w, req)

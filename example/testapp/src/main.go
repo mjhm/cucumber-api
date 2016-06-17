@@ -19,15 +19,16 @@ func sayHello(w http.ResponseWriter, r *http.Request) {
 
 // Giving main a flag of '--create' will simply create a skeleton database and exit
 func main() {
-	if len(os.Args) > 1 && os.Args[1] == "--create" {
-		err := db.CreateSkelDB()
+	if len(os.Args) > 1 && os.Args[1] == "--reset-db" {
+		os.Remove("test.db")
+		err := db.CreateSkelDB("test.db")
 		if err != nil {
 			fmt.Println(err)
 		}
 		return
 	}
 
-	dbase, err := db.OpenDB("start.db")
+	dbase, err := db.OpenDB("test.db")
 	setGlobalDatabase(dbase)
 
 	if err != nil {
