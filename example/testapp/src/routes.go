@@ -124,6 +124,7 @@ func handleUserGet(w http.ResponseWriter, req *http.Request) {
 
 func handleUserPost(w http.ResponseWriter, req *http.Request) {
 	req.ParseForm()
+
 	name, nameOk := req.PostForm["name"]
 	ageStr, ageOk := req.PostForm["age"]
 	if nameOk && ageOk && len(ageStr) == 1 && len(name) == 1 {

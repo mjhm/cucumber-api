@@ -29,8 +29,22 @@ Feature: Basic Features for lodash-match-pattern
     Then the response had status code "404"
 
     Given the database is reset
-    Given the client gets "/users"
+    And the client gets "/users"
+    Then the response had status code "200"
     And the response matched the pattern
       """
       []
+      """
+    Then the client posts to "/users" with query string
+      """
+      name=alec&age=19
+      """
+    Then the response had status code "200"
+    Then the response matched the pattern
+      """
+      {
+        Id: 1,
+        Name: "alec",
+        Age: 19
+      }
       """
