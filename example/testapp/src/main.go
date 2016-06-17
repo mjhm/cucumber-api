@@ -50,5 +50,5 @@ func getDBFilepath() string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return filepath.Join(dir,"db","test.db")
+	return filepath.Join(dir, "db", "test.db")
 }

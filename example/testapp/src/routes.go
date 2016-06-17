@@ -123,27 +123,27 @@ func handleUserGet(w http.ResponseWriter, req *http.Request) {
 }
 
 func handleUserPost(w http.ResponseWriter, req *http.Request) {
-  if req.Header.Get("Content-Type") == "application/json" { //receive JSON payload
-    var newUser user.User
-    decoder := json.NewDecoder(req.Body)
-    err := decoder.Decode(&newUser)
-    if err != nil {
-      handleBadRequest(util.ErrorToString(err), w, req)
-      return
-    }
-    err = db.CommitUser(dbase, &newUser)
+	if req.Header.Get("Content-Type") == "application/json" { //receive JSON payload
+		var newUser user.User
+		decoder := json.NewDecoder(req.Body)
+		err := decoder.Decode(&newUser)
+		if err != nil {
+			handleBadRequest(util.ErrorToString(err), w, req)
+			return
+		}
+		err = db.CommitUser(dbase, &newUser)
 
-    data, err := json.Marshal(newUser)
+		data, err := json.Marshal(newUser)
 		if err != nil {
 			handleServerError(util.ErrorToString(err), w, req)
 			return
 		}
 		setJsonMimeType(w)
 		w.Write(data)
-    return
-  }
+		return
+	}
 
-  // Received url encoded payload
+	// Received url encoded payload
 	req.ParseForm()
 
 	name, nameOk := req.PostForm["name"]
