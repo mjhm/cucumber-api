@@ -4,6 +4,7 @@ package db
 import (
 	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
+	"strconv"
 	"user"
 )
 
@@ -95,4 +96,12 @@ func FindUsersBy(db *sql.DB, filters map[string]string) ([]user.User, error) {
 		retSlice = append(retSlice, resUser)
 	}
 	return retSlice, nil
+}
+
+// deleteUser deletes a given user by id.
+// It returns error on database error (like no such user with given id)
+func DeleteUser(db *sql.DB, id int) error {
+	sqlStmt := "DELETE from users where id=" + strconv.Itoa(id)
+	_, err := db.Exec(sqlStmt)
+	return err
 }

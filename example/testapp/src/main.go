@@ -3,12 +3,15 @@ package main
 // Test server app from cucumber-api
 
 import (
+	"database/sql"
 	"db"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 )
+
+var dbase *sql.DB
 
 func sayHello(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello, World!\n")
@@ -24,6 +27,17 @@ func main() {
 		return
 	}
 
-	http.HandleFunc("/", sayHello)
+	dbase, err := db.OpenDB("start.db")
+	setGlobalDatabase(dbase)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	http.HandleFunc("/users", handleUser)
 	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+
+func setGlobalDatabase(d *sql.DB) {
+	dbase = d
 }

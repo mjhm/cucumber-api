@@ -42,3 +42,7 @@ func StringToArray(arrStr string) ([]string, error) {
 	retSlice = append(retSlice, curStr)
 	return retSlice, nil
 }
+
+func ErrorToString(e error) string {
+	return fmt.Sprintf("%v", e)
+}
