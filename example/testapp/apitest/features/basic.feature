@@ -136,7 +136,7 @@ Feature: Basic Features for lodash-match-pattern
     And the response matched the pattern
       """
         {
-          Success: true
+          Success: false
         }
       """
 

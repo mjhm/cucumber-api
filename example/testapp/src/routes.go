@@ -179,14 +179,18 @@ func handleUserDelete(w http.ResponseWriter, req *http.Request) {
 			return
 		}
 
-		err = db.DeleteUser(dbase, idInt)
+		numRows, err := db.DeleteUser(dbase, idInt)
 		if err != nil {
 			handleServerError(util.ErrorToString(err), w, req)
 			return
 		}
 
 		setJsonMimeType(w)
-		fmt.Fprintf(w, "{ \"Success\": true }")
+		if numRows > 0 {
+			fmt.Fprintf(w, "{ \"Success\": true }")
+		} else {
+			fmt.Fprintf(w, "{ \"Success\": false }")
+		}
 
 	} else {
 		handleBadRequest("please provide a single id to delete", w, req)

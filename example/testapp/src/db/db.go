@@ -99,9 +99,13 @@ func FindUsersBy(db *sql.DB, filters map[string]string) ([]user.User, error) {
 }
 
 // deleteUser deletes a given user by id.
-// It returns error on database error (like no such user with given id)
-func DeleteUser(db *sql.DB, id int) error {
+// It returns error on database error (like no such user with given id).
+// Otherwise, it returns the number of users deleted.
+func DeleteUser(db *sql.DB, id int) (int64, error) {
 	sqlStmt := "DELETE from users where id=" + strconv.Itoa(id)
-	_, err := db.Exec(sqlStmt)
-	return err
+	res, err := db.Exec(sqlStmt)
+	if err != nil {
+		return 0, err
+	}
+	return res.RowsAffected()
 }
