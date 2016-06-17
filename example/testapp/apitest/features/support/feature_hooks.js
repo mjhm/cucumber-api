@@ -3,7 +3,6 @@ var cucumberApi = require('cucumber-api');
 var Promise = require('bluebird');
 var childProcess = Promise.promisifyAll(require('child_process'), {multiArgs: true});
 
-
 module.exports = function () {
   var self = this;
 
