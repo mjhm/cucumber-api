@@ -7,7 +7,7 @@ module.exports = function () {
 
   this.Before( function () {
     cucumberApi.config.call(this, {
-      serverRoot: 'https:localhost:8080'
+      serverRoot: 'http://localhost:8080'
     });
     this.here = 'HERE3';
   });

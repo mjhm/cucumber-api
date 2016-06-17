@@ -25,19 +25,20 @@ Feature: Basic Features for lodash-match-pattern
       """
 
   Scenario: Check request steps
-    Given the client gets "/videos"
-    Then the response had status code "400"
+    Given the client gets "/"
+    Then the response had status code "404"
+
+    Given the database is reset
+    Given the client posts to "/user"
+      """
+      name=alec&age=54
+      """
+    Then the response had status code "200"
     And the response matched the pattern
       """
       {
-        error: {
-          errors: [
-            {
-              reason: 'required',
-              ...
-            }
-          ],
-          ...
-        }
+        id: 1,
+        name: "John",
+        age: 19
       }
       """
