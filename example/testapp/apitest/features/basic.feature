@@ -44,15 +44,15 @@ Feature: Basic Features for lodash-match-pattern
     Then the response matched the pattern
       """
       {
-        Id: 1,
-        Name: "alec",
-        Age: 21
+        id: 1,
+        name: "alec",
+        age: 21
       }
       """
     Then the client posts to "/users" with JSON
       """
       {
-        "Name": "john",
+        "name": "john",
         "age": 21
       }
       """
@@ -64,14 +64,14 @@ Feature: Basic Features for lodash-match-pattern
       """
       [
         {
-          Id: 1,
-          Name: "alec",
-          Age: 21
+          id: 1,
+          name: "alec",
+          age: 21
         },
         {
-          Id: 2,
-          Name: "john",
-          Age: 21
+          id: 2,
+          name: "john",
+          age: 21
         }
       ]
       """
@@ -83,9 +83,9 @@ Feature: Basic Features for lodash-match-pattern
       """
       [
         {
-          Id: 1,
-          Name: "alec",
-          Age: 21
+          id: 1,
+          name: "alec",
+          age: 21
         },
       ]
       """
@@ -96,14 +96,14 @@ Feature: Basic Features for lodash-match-pattern
         """
         [
           {
-            Id: 1,
-            Name: "alec",
-            Age: 21
+            id: 1,
+            name: "alec",
+            age: 21
           },
           {
-            Id: 2,
-            Name: "john",
-            Age: 21
+            id: 2,
+            name: "john",
+            age: 21
           }
         ]
         """
@@ -146,9 +146,9 @@ Feature: Basic Features for lodash-match-pattern
       """
         [
           {
-            Id: 2,
-            Name: "john",
-            Age: 21
+            id: 2,
+            name: "john",
+            age: 21
           }
         ]
      """
