@@ -14,6 +14,7 @@
 * Once you build the binary, `cd example/testapp/apitest`
 * run `npm i`
 * run `node_modules/.bin/cucumberjs`
+* You can give the server an optional port parameter at the command line by running `./serv --port 8080` (substitute whichever port you want)
 
 ## Routes
   * GET `/users` will return a json array of all users
