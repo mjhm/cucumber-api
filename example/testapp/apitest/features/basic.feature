@@ -44,15 +44,15 @@ Feature: Basic Features for lodash-match-pattern
     Then the response matched the pattern
       """
       {
-        Id: 1,
-        Name: "alec",
-        Age: 21
+        id: 1,
+        name: "alec",
+        age: 21
       }
       """
     Then the client posts to "/users" with JSON
       """
       {
-        "Name": "john",
+        "name": "john",
         "age": 21
       }
       """
@@ -64,28 +64,29 @@ Feature: Basic Features for lodash-match-pattern
       """
       [
         {
-          Id: 1,
-          Name: "alec",
-          Age: 21
+          id: 1,
+          name: "alec",
+          age: 21
         },
         {
-          Id: 2,
-          Name: "john",
-          Age: 21
+          id: 2,
+          name: "john",
+          age: 21
         }
       ]
       """
 
   Scenario: Users are searched correctly
+    Given the database is populated with sample users
     When the client gets "/users?name=alec"
     Then the response had status code "200"
     And the response matched the pattern
       """
       [
         {
-          Id: 1,
-          Name: "alec",
-          Age: 21
+          id: 1,
+          name: "alec",
+          age: 21
         },
       ]
       """
@@ -96,14 +97,14 @@ Feature: Basic Features for lodash-match-pattern
         """
         [
           {
-            Id: 1,
-            Name: "alec",
-            Age: 21
+            id: 1,
+            name: "alec",
+            age: 21
           },
           {
-            Id: 2,
-            Name: "john",
-            Age: 21
+            id: 2,
+            name: "john",
+            age: 21
           }
         ]
         """
@@ -123,6 +124,7 @@ Feature: Basic Features for lodash-match-pattern
         """
 
   Scenario: Users are delted correctly
+    Given the database is populated with sample users
     When the client deletes "/users?id=1"
     Then the response had status code "200"
     And the response matched the pattern
@@ -146,9 +148,34 @@ Feature: Basic Features for lodash-match-pattern
       """
         [
           {
-            Id: 2,
-            Name: "john",
-            Age: 21
+            id: 2,
+            name: "john",
+            age: 21
           }
         ]
      """
+
+  Scenario: Db check
+    Given the client posts to "/users" with JSON
+      """
+      {
+        "name": "davy",
+        "age": 47
+      }
+      """
+    And the SQL query
+      """
+      SELECT * from users
+      """
+    Then the query result matched the pattern
+      """
+      {
+        <-.sortBy|id: {
+          <-.last: {
+            name: 'davy',
+            age: 47,
+            ...
+          }
+        }
+      }
+      """
