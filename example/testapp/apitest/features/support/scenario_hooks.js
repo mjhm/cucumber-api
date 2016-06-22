@@ -1,5 +1,6 @@
 // var cucumberApi = require('cucumber-api');
 var cucumberApi = require('../../../../../index.js');
+var path = require('path');
 
 module.exports = function () {
 
@@ -7,9 +8,14 @@ module.exports = function () {
 
   this.Before( function () {
     cucumberApi.config.call(this, {
-      serverRoot: 'http://localhost:3000'
+      serverRoot: 'http://localhost:3000',
+      db: {
+        client: 'sqlite3',
+        connection: {
+          filename: path.join(__dirname, '/../../../src/db/test.db')
+        }
+      }
     });
-    this.here = 'HERE3';
   });
 
 };
