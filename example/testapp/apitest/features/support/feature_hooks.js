@@ -6,18 +6,16 @@ var portUsed = require('tcp-port-used');
 
 waitForStartup = function (done) {
   portUsed.check(3000, "localhost")
-    .then(function(inUse) {
-      if(inUse) {
-        done();
-      }
-      else {
-        setTimeout(function() {
-          waitForStartup(done);
-        }, 50);
-      }
-    }, function (err) {
-      console.log("Cannot connect to server. Please make sure that your ports are configured properly");
-    });
+  .then(function(inUse) {
+    if (inUse) return done();
+    setTimeout(function () {
+      waitForStartup(done);
+    }, 50);
+  })
+  .catch( function (err) {
+    console.log("Cannot connect to server. Please make sure that your ports are configured properly");
+    done(err);
+  });
 }
 
 
