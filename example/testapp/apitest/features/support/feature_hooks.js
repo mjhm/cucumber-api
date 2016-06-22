@@ -5,7 +5,7 @@ var childProcess = Promise.promisifyAll(require('child_process'), {multiArgs: tr
 var portUsed = require('tcp-port-used');
 
 waitForStartup = function (done) {
-  portUsed.check(8080, "localhost")
+  portUsed.check(3000, "localhost")
     .then(function(inUse) {
       if(inUse) {
         done();
@@ -13,7 +13,7 @@ waitForStartup = function (done) {
       else {
         setTimeout(function() {
           waitForStartup(done);
-        }, 1000);
+        }, 50);
       }
     }, function (err) {
       console.log("Cannot connect to server. Please make sure that your ports are configured properly");
